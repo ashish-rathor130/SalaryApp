@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-lg responsive-text fixed-top">
+    <div class="container-fluid text-white">
+      <a class="navbar-brand text-white" href="{% url "home" %}">Salary<strong>App</strong></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active {% if request.path == "/" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" aria-current="page" href="{% url "home" %}">Home</a>
+          </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link text-white{% if request.path == "logout" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="logout">Logout</a>
+          </li>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link text-white" href="admin">Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == "/uploadfile" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'uploadfile' %}">UploadFile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white {% if request.path == "/slips" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'select_slip' %}">GenerateSleep</a>
+          </li>
+          {% endif %}
+          <li class="nav-item align-items-center my-auto">
+            <small class = "text-white">Welcome! <strong style = "text-transform:capitalize">{{request.user}}</strong></small>
+          </li>
+        {% else %}
+          <li class="nav-item">
+              <a class="nav-link text-white {% if request.path == "/login" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white {% if request.path == "/signup" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="signup">SignUp</a>
+            </li>
+        {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+        <form action ="/" class="d-flex" role="search" method = "post">
+            {% csrf_token %}
+          <input class="form-control me-2" type="search" placeholder="Name/Vendor Id..." aria-label="Search" name = "search-item" style = "font-size:12px;">
+          <button class="btn btn-warning text-white" type="submit">Search</button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </nav>

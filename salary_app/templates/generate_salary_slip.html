@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Generate Salary Slip{% endblock title %}
+{% block content %}
+    <div class="container mx-auto responsive-text" style = "text-align:center;">
+        <h2 class="text-center fw-bold text-decoration-underline">Generate Salary Slip!</h2>
+        <table class = "border border-success table table-hover">
+            {% if emp_slips %}
+            <thead>
+                <th>File ID</th>
+                <th>File Name</th>
+                <th>Month</th>
+                <th>Status</th>
+                <th>View</th>
+                <th>Del</th>
+            </thead>
+            {% endif %}
+            <tbody>
+                {% for slip in emp_slips %}
+                <tr>
+                    <td>{{slip.id}}</td>
+                    <td >{{slip.filename}}</td>
+                    <td>{{slip.month}}</td>
+                    <td><a href="generate_salary_slip{{ slip.id}}">Generate</a></td>
+                    <td><a href = "{{ slip.file.url }}" target="_blank"><icon class = "fa fa-download"></icon></a></td>
+                    <td><a href="delete_slip{{ slip.id}}"><icon class ="fa fa-trash text-danger"></icon></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+{% endblock content %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+    {% load static %}
+    {% if user.is_authenticated %}
+    <div class="container table-responsive">
+        {% if request.user.is_superuser %}
+        <h5 class="text-center fw-bold text-decoration-underline">All Employee Salary Slips Download <a href = ""><icon class = "fa fa-download"><icon></a></h5>
+        {% endif %}
+        <table class = "border border-success table table-hover responsive-text" style = "border-radius:10px; border:2px solid green;">
+            {% if user_data %}  
+            <thead>
+                <th>SR</th>
+                <th>Name</th>
+                <th>Emp ID</th>
+                <th>Salary</th>
+                <th>PF</th>
+                <th>Month</th>
+                <th>JD</th>
+                <th>Slip</icon></th>
+                {% if request.user.is_superuser %}
+                <th>Action</th>
+                {% endif %}
+            </thead>
+            {% endif %}
+            <tbody>
+                {% for field in user_data  %}
+                <tr style = "border-radius:5px;">
+                    <td>{{field.id}}</td>
+                    <td><a href="user_data{{field.id}}">{{field.emp_name}}</a></td>
+                    <td>{{field.emp_id}}</td>
+                    <td class = "text-success">{{field.net_salary}}<i class = "fa fa-inr"></i></td>
+                    <td class = "text-success">{{field.pf}}<i class = "fa fa-inr"></i></td>
+                    <td>{{field.month}}</td>
+                    <td>{{field.date_of_joining}}</td>
+                    <td><a href = "{{ field.file.url }}" target="_blank"><icon class = "fa fa-download"></icon></a></td>
+                    {% if request.user.is_superuser %}
+                    <td ><a href="delete_slip{{field.id}}" class = "text-danger"><i class = "fa fa-trash"></i></a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <div class="hero">
+        <img src="{% static "images/ashish profile.jpg" %}" alt="Ashish Profile" class="profile-img" />
+        <div class="typewriter" id="typewriter"></div>
+        <div class="responsive-text">
+            This website has been developed exclusively for the employees of <strong>Avant</strong> to securely access and download their salary slips without any delays or complications.
+        </div>
+        <div>
+            <h4><strong class="typewriter">Check Salary Slip </strong><a href="{% url 'login' %}" style="color: blue; text-decoration:underline; font-size:22px; margin-left:10px;">  Here...</a></h4>
+            <h5 class="responsive-text" style="margin:5px; padding:2px;font-size:16px;"> Username: ashish password: ashish123</h5>
+        </div>
+    </div>
+    <div class="responsive-text"><strong>⚠️ Disclaimer:</strong>
+The salary slip information provided on this portal is sourced directly from authorized vendors. Avant is not responsible for any discrepancies, missing data, or inaccuracies in the content displayed.
+If you encounter any issues or inconsistencies, please contact your designated vendor or payroll administrator for clarification and resolution.
+    </div>
+    <div class="social-marquee" style="border-radius:20px; margin-bottom:50px;">
+    <div class="marquee"  style = "margin-bottom:20px;">
+        <a href="https://github.com/ashish-rathor130" target="_blank">
+        <i class="fab fa-github social-icon"></i>
+        </a>
+        <a href="https://youtube.com/@user-ashishrathor" target="_blank">
+        <i class="fab fa-youtube social-icon"></i>
+        </a>
+        <a href="https://facebook.com/ashishrathor3472" target="_blank">
+        <i class="fab fa-facebook social-icon"></i>
+        </a>
+        <a href="https://instagram.com/ashishrathor3472" target="_blank">
+        <i class="fab fa-instagram social-icon"></i>
+        </a>
+    </div>
+    </div>
+
+{% endblock content %}
+
