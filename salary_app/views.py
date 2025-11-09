@@ -10,6 +10,11 @@ from datetime import datetime
 from django.core.files import File
 from django.core.files.base import ContentFile
 import os
+from .models import Attendance
+import datetime
+import openpyxl
+from .forms import DailyAttendanceForm
+
 
 def home(request):
     if request.user.is_authenticated:
@@ -166,3 +171,58 @@ def GenSalarySlip(request,id):
     messages.success(request, "Salary Slip Generated Successfully!")
     # data = {"salary_files": EmployeeAccount.objects.all()}
     return render(request,"index.html")
+
+# Daily Attendance
+def daily_attendance(request):
+    today = datetime.date.today()
+    records = Attendance.objects.filter(date=today)
+    return render(request, 'daily.html', {'records': records, 'date': today})
+
+# Monthly Attendance
+def monthly_attendance(request, year, month):
+    records = Attendance.objects.filter(date__year=year, date__month=month)
+    return render(request, 'monthly.html', {'records': records, 'year': year, 'month': month})
+
+# Attendance by Month for Specific Employee
+def employee_monthly_attendance(request, employee_id, year, month):
+    records = Attendance.objects.filter(employee_id=employee_id, date__year=year, date__month=month)
+    return render(request, 'employee_monthly.html', {
+        'records': records,
+        'employee_id': employee_id,
+        'year': year,
+        'month': month
+    })
+
+# Export Attendance to Excel
+def export_attendance_excel(request):
+    records = Attendance.objects.all()
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "Attendance Records"
+    ws.append(['Employee', 'Date', 'Status'])
+
+    for record in records:
+        ws.append([record.employee.username, record.date.strftime('%Y-%m-%d'), record.status])
+
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=attendance.xlsx'
+    wb.save(response)
+    return response
+
+
+def mark_attendance(request):
+    today = datetime.date.today()
+    if request.method == 'POST':
+        form = DailyAttendanceForm(request.POST)
+        if form.is_valid():
+            employee = form.cleaned_data['employee']
+            status = form.cleaned_data['status']
+            Attendance.objects.update_or_create(
+                employee=employee,
+                date=today,
+                defaults={'status': status}
+            )
+            return redirect('daily_attendance')
+    else:
+        form = DailyAttendanceForm()
+    return render(request, 'mark_attendance.html', {'form': form, 'date': today})

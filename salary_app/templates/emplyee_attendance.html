@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Monthly-Attendance{% endblock title %}
+{% block content %}
+  <h2>Attendance for Employee ID {{ employee_id }} - {{ month }}/{{ year }}</h2>
+  <table>
+    <tr><th>Date</th><th>Status</th></tr>
+    {% for record in records %}
+      <tr class="{{ record.status|lower }}">
+        <td>{{ record.date }}</td>
+        <td>{{ record.status }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock content %}

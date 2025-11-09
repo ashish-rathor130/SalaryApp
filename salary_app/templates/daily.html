@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Daily-Attendance{% endblock title %}
+{% block content %}
+<style>
+ .text-p {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .text-p th, td {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  .present {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  .absent {
+    background-color: #f8d7da;
+    color: #721c24;
+  } 
+</style>
+<h2>Attendance for {{ month }}/{{ year }}</h2>
+  <table class = "text-p">
+    <tr><th>Employee</th><th>Date</th><th>Status</th></tr>
+    {% for record in records %}
+      <tr class="{{ record.status|lower }}">
+        <td>{{ record.employee.username }}</td>
+        <td>{{ record.date }}</td>
+        <td>{{ record.status }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock content %}

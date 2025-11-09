@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from django.contrib.auth.models import User
 
 choices = (
     ("Jan","January"),
@@ -31,3 +32,12 @@ class SalarySleep(models.Model):
     date_of_joining = models.CharField(max_length=50)
     month = models.CharField(max_length=3, choices=choices, default=datetime.now().strftime("%b"))
     file = models.FileField(upload_to="salary_slips/")
+
+class Attendance(models.Model):
+    employee = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField()
+    status = models.CharField(max_length=10, choices=[('Present', 'Present'), ('Absent', 'Absent')])
+
+    def __str__(self):
+        return f"{self.employee.username} - {self.date} - {self.status}"
+

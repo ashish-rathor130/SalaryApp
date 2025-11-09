@@ -7,21 +7,24 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active {% if request.path == "/" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" aria-current="page" href="{% url "home" %}">Home</a>
+            <a class="nav-link {% if request.path == '/' %} text-white fw-bold text-decoration-underline {% else %} text-white {% endif %}" aria-current="page" href="{% url "home" %}"><icon class = "fa fa-home"></icon>Home</a>
           </li>
         {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link text-white{% if request.path == "logout" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="logout">Logout</a>
-          </li>
+          {% comment %} <li class="nav-item">
+            <a class="nav-link text-white" href="{% url 'mark_attendance' %}"><icon class = "fa fa-calendar"></icon></icon>Attendance</a>
+          </li> {% endcomment %}
           {% if user.is_superuser %}
           <li class="nav-item">
-            <a class="nav-link text-white" href="admin">Admin</a>
+            <a class="nav-link text-white" href="/admin"><i class="fa fa-user-circle" aria-hidden="true"></i>Admin</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == "/uploadfile" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'uploadfile' %}">UploadFile</a>
+            <a class="nav-link {% if request.path == '/uploadfile' %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'uploadfile' %}"><icon class = "fa fa-upload"></icon>UploadFile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white {% if request.path == "/slips" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'select_slip' %}">GenerateSleep</a>
+            <a class="nav-link text-white {% if request.path == '/slips' %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="{% url 'select_slip' %}"><i class='fa fa-paper-plane'></i>Generate</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" href="logout"><icon class = "	fa fa-sign-out"></icon>Logout</a>
           </li>
           {% endif %}
           <li class="nav-item align-items-center my-auto">
@@ -29,10 +32,10 @@
           </li>
         {% else %}
           <li class="nav-item">
-              <a class="nav-link text-white {% if request.path == "/login" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="login">Login</a>
+              <a class="nav-link {% if request.path == '/login' %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="login"><icon class = "fa fa-user"></icon>Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {% if request.path == "/signup" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="signup">SignUp</a>
+                <a class="nav-link {% if request.path == "/signup" %}text-white fw-bold text-decoration-underline{% else %} text-white {% endif %}" href="signup"><icon class = "fa fa-sign-in"></icon>SignUp</a>
             </li>
         {% endif %}
         </ul>

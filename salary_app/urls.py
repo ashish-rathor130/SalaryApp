@@ -15,7 +15,13 @@ urlpatterns = [
     path("generate_salary_slip<int:id>",views.GenSalarySlip , name = "generate_salary_slip"),
     path("delete_slip<int:id>",views.DeleteSlip , name = "delete_slip"),
     path("delete_emp_slip<int:id>",views.DeleteEmpSlip , name = "delete_emp_slip"),
-    
+    # urls.py
+    path('attendance/mark/', views.mark_attendance, name='mark_attendance'),    
+    path('attendance/daily/', views.daily_attendance, name='daily_attendance'),
+    path('attendance/monthly/<int:year>/<int:month>/', views.monthly_attendance, name='monthly_attendance'),
+    path('attendance/employee/<int:employee_id>/<int:year>/<int:month>/', views.employee_monthly_attendance, name='employee_monthly_attendance'),
+    path('attendance/export/', views.export_attendance_excel, name='export_attendance_excel'),
+
 ]
 
 if settings.DEBUG:

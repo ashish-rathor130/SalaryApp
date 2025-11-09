@@ -2,13 +2,35 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
     {% load static %}
-    {% if user.is_authenticated %}
+     <div class="hero">
+        <img src="https://tse2.mm.bing.net/th/id/OIP.Gfp0lwE6h7139625a-r3aAHaHa?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Ashish Profile" class="profile-img" />
+        <div class="typewriter" id="typewriter"></div>
+        <div class="responsive-text">
+            This website has been developed exclusively for the employees of <strong>Avant</strong> to securely access and download their salary slips without any delays or complications.
+        </div>
+        <div>
+            <h4><strong class="typewriter">Check Salary Slip </strong>{% if not user.is_authenticated %}<a href="{% url 'login' %}" style="color: blue; text-decoration:underline; font-size:22px; margin-left:10px;">  Here...</a>
+            {% else %}
+            {% if user.is_authenticated %}
+                <form action ="/" class="d-flex" role="search" method = "post" style = "margin:4px;">
+                    {% csrf_token %}
+                  <input class="form-control me-2" type="search" placeholder="Name/Vendor Id..." aria-label="Search" name = "search-item" style = "font-size:12px;">
+                  <button class="btn btn-warning text-white" type="submit">Search</button>
+                </form>
+            {% endif %}
+            {% endif %}</h4>
+
+            {% if not user.is_authenticated %}
+            <h5 class="responsive-text" style="margin:5px; padding:2px;font-size:16px;"> Username: ashish password: ashish123</h5>
+            {% endif %}
+        </div>
+        {% if user.is_authenticated %}
     <div class="container table-responsive">
-        {% if request.user.is_superuser %}
+        {% comment %} {% if request.user.is_superuser %}
         <h5 class="text-center fw-bold text-decoration-underline">All Employee Salary Slips Download <a href = ""><icon class = "fa fa-download"><icon></a></h5>
-        {% endif %}
-        <table class = "border border-success table table-hover responsive-text" style = "border-radius:10px; border:2px solid green;">
-            {% if user_data %}  
+        {% endif %} {% endcomment %}
+        <table class = "border border-success table table-hover responsive-text" style = "border-radius:10px; border:2px solid green; margin-bottom:10px;">
+            {% if user_data %}
             <thead>
                 <th>SR</th>
                 <th>Name</th>
@@ -27,7 +49,7 @@
                 {% for field in user_data  %}
                 <tr style = "border-radius:5px;">
                     <td>{{field.id}}</td>
-                    <td><a href="user_data{{field.id}}">{{field.emp_name}}</a></td>
+                    <td><a href="#">{{field.emp_name}}</a></td>
                     <td>{{field.emp_id}}</td>
                     <td class = "text-success">{{field.net_salary}}<i class = "fa fa-inr"></i></td>
                     <td class = "text-success">{{field.pf}}<i class = "fa fa-inr"></i></td>
@@ -35,7 +57,7 @@
                     <td>{{field.date_of_joining}}</td>
                     <td><a href = "{{ field.file.url }}" target="_blank"><icon class = "fa fa-download"></icon></a></td>
                     {% if request.user.is_superuser %}
-                    <td ><a href="delete_slip{{field.id}}" class = "text-danger"><i class = "fa fa-trash"></i></a></td>
+                    <td ><a href="delete_emp_slip{{field.id}}" class = "text-danger"><i class = "fa fa-trash"></i></a></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
@@ -43,16 +65,6 @@
         </table>
     </div>
     {% endif %}
-    <div class="hero">
-        <img src="{% static "images/ashish profile.jpg" %}" alt="Ashish Profile" class="profile-img" />
-        <div class="typewriter" id="typewriter"></div>
-        <div class="responsive-text">
-            This website has been developed exclusively for the employees of <strong>Avant</strong> to securely access and download their salary slips without any delays or complications.
-        </div>
-        <div>
-            <h4><strong class="typewriter">Check Salary Slip </strong><a href="{% url 'login' %}" style="color: blue; text-decoration:underline; font-size:22px; margin-left:10px;">  Here...</a></h4>
-            <h5 class="responsive-text" style="margin:5px; padding:2px;font-size:16px;"> Username: ashish password: ashish123</h5>
-        </div>
     </div>
     <div class="responsive-text"><strong>⚠️ Disclaimer:</strong>
 The salary slip information provided on this portal is sourced directly from authorized vendors. Avant is not responsible for any discrepancies, missing data, or inaccuracies in the content displayed.
